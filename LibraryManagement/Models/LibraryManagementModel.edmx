@@ -1,0 +1,678 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LibraryManagementDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Autor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Imie" Type="varchar" MaxLength="15" />
+          <Property Name="Nazwisko" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Czytelnik">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Imie" Type="varchar" MaxLength="15" />
+          <Property Name="Nazwisko" Type="varchar" MaxLength="30" />
+          <Property Name="Uzytkownik" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Haslo" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Rola" Type="int" Nullable="false" />
+          <Property Name="Wazne" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ksiazka">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tytul" Type="varchar" MaxLength="100" />
+          <Property Name="ISBN" Type="varchar" MaxLength="20" />
+          <Property Name="Strony" Type="int" />
+          <Property Name="ID_Wydawcy" Type="int" />
+          <Property Name="ID_Autora" Type="int" />
+          <Property Name="ID_Aktora" Type="int" />
+          <Property Name="ID_Slowo_Kluczowe" Type="int" />
+          <Property Name="Stan_Magazynowy" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rola">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nazwa" Type="nchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Slowo_Kluczowe">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Strona" Type="int" />
+          <Property Name="Slowo" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Stan">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Opis" Type="nchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Wydawca">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nazwa" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Wypozyczenia_Filmu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Czytelnika" Type="int" />
+          <Property Name="ID_Filmu" Type="int" />
+          <Property Name="Data_Wypozyczenia" Type="datetime" Nullable="false" />
+          <Property Name="Data_Zwrotu" Type="datetime" Nullable="false" />
+          <Property Name="Stan" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Wypozyczenia_Ksiazki">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Czytelnika" Type="int" />
+          <Property Name="ID_Ksiazki" Type="int" />
+          <Property Name="Data_Wypozyczenia" Type="datetime" Nullable="false" />
+          <Property Name="Data_Zwrotu" Type="datetime" Nullable="false" />
+          <Property Name="Stan" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Ksiazka__ID_Auto__3E52440B">
+          <End Role="Autor" Type="Self.Autor" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Ksiazka" Type="Self.Ksiazka" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Autor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Ksiazka">
+              <PropertyRef Name="ID_Autora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ksiazka__ID_Slow__3F466844">
+          <End Role="Slowo_Kluczowe" Type="Self.Slowo_Kluczowe" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Ksiazka" Type="Self.Ksiazka" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Slowo_Kluczowe">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Ksiazka">
+              <PropertyRef Name="ID_Slowo_Kluczowe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ksiazka__ID_Wyda__3D5E1FD2">
+          <End Role="Wydawca" Type="Self.Wydawca" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Ksiazka" Type="Self.Ksiazka" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wydawca">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Ksiazka">
+              <PropertyRef Name="ID_Wydawcy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Wypozycze__ID_Cz__440B1D61">
+          <End Role="Czytelnik" Type="Self.Czytelnik" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Wypozyczenia_Filmu" Type="Self.Wypozyczenia_Filmu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Czytelnik">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Wypozyczenia_Filmu">
+              <PropertyRef Name="ID_Czytelnika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Wypozycze__ID_Cz__45F365D3">
+          <End Role="Czytelnik" Type="Self.Czytelnik" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Wypozyczenia_Ksiazki" Type="Self.Wypozyczenia_Ksiazki" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Czytelnik">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Wypozyczenia_Ksiazki">
+              <PropertyRef Name="ID_Czytelnika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Wypozycze__ID_Ks__46E78A0C">
+          <End Role="Ksiazka" Type="Self.Ksiazka" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Wypozyczenia_Ksiazki" Type="Self.Wypozyczenia_Ksiazki" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ksiazka">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Wypozyczenia_Ksiazki">
+              <PropertyRef Name="ID_Ksiazki" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Czytelnik_ToRola">
+          <End Role="Rola" Type="Self.Rola" Multiplicity="1" />
+          <End Role="Czytelnik" Type="Self.Czytelnik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rola">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Czytelnik">
+              <PropertyRef Name="Rola" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wypozyczenia_Filmu_ToStan">
+          <End Role="Stan" Type="Self.Stan" Multiplicity="1" />
+          <End Role="Wypozyczenia_Filmu" Type="Self.Wypozyczenia_Filmu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stan">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Wypozyczenia_Filmu">
+              <PropertyRef Name="Stan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wypozyczenia_Ksiazki_ToStan">
+          <End Role="Stan" Type="Self.Stan" Multiplicity="1" />
+          <End Role="Wypozyczenia_Ksiazki" Type="Self.Wypozyczenia_Ksiazki" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stan">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Wypozyczenia_Ksiazki">
+              <PropertyRef Name="Stan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LibraryManagementDataModelStoreContainer">
+          <EntitySet Name="Autor" EntityType="Self.Autor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Czytelnik" EntityType="Self.Czytelnik" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ksiazka" EntityType="Self.Ksiazka" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rola" EntityType="Self.Rola" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Slowo_Kluczowe" EntityType="Self.Slowo_Kluczowe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stan" EntityType="Self.Stan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wydawca" EntityType="Self.Wydawca" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wypozyczenia_Filmu" EntityType="Self.Wypozyczenia_Filmu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wypozyczenia_Ksiazki" EntityType="Self.Wypozyczenia_Ksiazki" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Ksiazka__ID_Auto__3E52440B" Association="Self.FK__Ksiazka__ID_Auto__3E52440B">
+            <End Role="Autor" EntitySet="Autor" />
+            <End Role="Ksiazka" EntitySet="Ksiazka" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ksiazka__ID_Slow__3F466844" Association="Self.FK__Ksiazka__ID_Slow__3F466844">
+            <End Role="Slowo_Kluczowe" EntitySet="Slowo_Kluczowe" />
+            <End Role="Ksiazka" EntitySet="Ksiazka" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ksiazka__ID_Wyda__3D5E1FD2" Association="Self.FK__Ksiazka__ID_Wyda__3D5E1FD2">
+            <End Role="Wydawca" EntitySet="Wydawca" />
+            <End Role="Ksiazka" EntitySet="Ksiazka" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Wypozycze__ID_Cz__440B1D61" Association="Self.FK__Wypozycze__ID_Cz__440B1D61">
+            <End Role="Czytelnik" EntitySet="Czytelnik" />
+            <End Role="Wypozyczenia_Filmu" EntitySet="Wypozyczenia_Filmu" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Wypozycze__ID_Cz__45F365D3" Association="Self.FK__Wypozycze__ID_Cz__45F365D3">
+            <End Role="Czytelnik" EntitySet="Czytelnik" />
+            <End Role="Wypozyczenia_Ksiazki" EntitySet="Wypozyczenia_Ksiazki" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Wypozycze__ID_Ks__46E78A0C" Association="Self.FK__Wypozycze__ID_Ks__46E78A0C">
+            <End Role="Ksiazka" EntitySet="Ksiazka" />
+            <End Role="Wypozyczenia_Ksiazki" EntitySet="Wypozyczenia_Ksiazki" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Czytelnik_ToRola" Association="Self.FK_Czytelnik_ToRola">
+            <End Role="Rola" EntitySet="Rola" />
+            <End Role="Czytelnik" EntitySet="Czytelnik" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wypozyczenia_Filmu_ToStan" Association="Self.FK_Wypozyczenia_Filmu_ToStan">
+            <End Role="Stan" EntitySet="Stan" />
+            <End Role="Wypozyczenia_Filmu" EntitySet="Wypozyczenia_Filmu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wypozyczenia_Ksiazki_ToStan" Association="Self.FK_Wypozyczenia_Ksiazki_ToStan">
+            <End Role="Stan" EntitySet="Stan" />
+            <End Role="Wypozyczenia_Ksiazki" EntitySet="Wypozyczenia_Ksiazki" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LibraryManagementDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Autor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Imie" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Nazwisko" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Ksiazka" Relationship="Self.FK__Ksiazka__ID_Auto__3E52440B" FromRole="Autor" ToRole="Ksiazka" />
+        </EntityType>
+        <EntityType Name="Czytelnik">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Imie" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Nazwisko" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Uzytkownik" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Haslo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Wypozyczenia_Filmu" Relationship="Self.FK__Wypozycze__ID_Cz__440B1D61" FromRole="Czytelnik" ToRole="Wypozyczenia_Filmu" />
+          <NavigationProperty Name="Wypozyczenia_Ksiazki" Relationship="Self.FK__Wypozycze__ID_Cz__45F365D3" FromRole="Czytelnik" ToRole="Wypozyczenia_Ksiazki" />
+          <Property Name="Rola" Type="Int32" Nullable="false" />
+          <Property Name="Wazne" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Rola1" Relationship="LibraryManagementDataModel.FK_Czytelnik_ToRola" FromRole="Czytelnik" ToRole="Rola" />
+        </EntityType>
+        <EntityType Name="Ksiazka">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tytul" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ISBN" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Strony" Type="Int32" />
+          <Property Name="ID_Wydawcy" Type="Int32" />
+          <Property Name="ID_Autora" Type="Int32" />
+          <Property Name="ID_Aktora" Type="Int32" />
+          <Property Name="ID_Slowo_Kluczowe" Type="Int32" />
+          <NavigationProperty Name="Autor" Relationship="Self.FK__Ksiazka__ID_Auto__3E52440B" FromRole="Ksiazka" ToRole="Autor" />
+          <NavigationProperty Name="Slowo_Kluczowe" Relationship="Self.FK__Ksiazka__ID_Slow__3F466844" FromRole="Ksiazka" ToRole="Slowo_Kluczowe" />
+          <NavigationProperty Name="Wydawca" Relationship="Self.FK__Ksiazka__ID_Wyda__3D5E1FD2" FromRole="Ksiazka" ToRole="Wydawca" />
+          <NavigationProperty Name="Wypozyczenia_Ksiazki" Relationship="Self.FK__Wypozycze__ID_Ks__46E78A0C" FromRole="Ksiazka" ToRole="Wypozyczenia_Ksiazki" />
+          <Property Name="Stan_Magazynowy" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Slowo_Kluczowe">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Strona" Type="Int32" />
+          <Property Name="Slowo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Ksiazka" Relationship="Self.FK__Ksiazka__ID_Slow__3F466844" FromRole="Slowo_Kluczowe" ToRole="Ksiazka" />
+        </EntityType>
+        <EntityType Name="Wydawca">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nazwa" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Ksiazka" Relationship="Self.FK__Ksiazka__ID_Wyda__3D5E1FD2" FromRole="Wydawca" ToRole="Ksiazka" />
+        </EntityType>
+        <EntityType Name="Wypozyczenia_Filmu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Czytelnika" Type="Int32" />
+          <Property Name="ID_Filmu" Type="Int32" />
+          <Property Name="Data_Wypozyczenia" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="Data_Zwrotu" Type="DateTime" Precision="3" Nullable="false" />
+          <NavigationProperty Name="Czytelnik" Relationship="Self.FK__Wypozycze__ID_Cz__440B1D61" FromRole="Wypozyczenia_Filmu" ToRole="Czytelnik" />
+          <Property Name="Stan" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Stan1" Relationship="LibraryManagementDataModel.FK_Wypozyczenia_Filmu_ToStan" FromRole="Wypozyczenia_Filmu" ToRole="Stan" />
+        </EntityType>
+        <EntityType Name="Wypozyczenia_Ksiazki">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Czytelnika" Type="Int32" />
+          <Property Name="ID_Ksiazki" Type="Int32" />
+          <Property Name="Data_Wypozyczenia" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="Data_Zwrotu" Type="DateTime" Precision="3" Nullable="false" />
+          <NavigationProperty Name="Czytelnik" Relationship="Self.FK__Wypozycze__ID_Cz__45F365D3" FromRole="Wypozyczenia_Ksiazki" ToRole="Czytelnik" />
+          <NavigationProperty Name="Ksiazka" Relationship="Self.FK__Wypozycze__ID_Ks__46E78A0C" FromRole="Wypozyczenia_Ksiazki" ToRole="Ksiazka" />
+          <Property Name="Stan" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Stan1" Relationship="LibraryManagementDataModel.FK_Wypozyczenia_Ksiazki_ToStan" FromRole="Wypozyczenia_Ksiazki" ToRole="Stan" />
+        </EntityType>
+        <Association Name="FK__Ksiazka__ID_Auto__3E52440B">
+          <End Role="Autor" Type="Self.Autor" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Ksiazka" Type="Self.Ksiazka" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Autor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Ksiazka">
+              <PropertyRef Name="ID_Autora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Wypozycze__ID_Cz__440B1D61">
+          <End Role="Czytelnik" Type="Self.Czytelnik" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Wypozyczenia_Filmu" Type="Self.Wypozyczenia_Filmu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Czytelnik">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Wypozyczenia_Filmu">
+              <PropertyRef Name="ID_Czytelnika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Wypozycze__ID_Cz__45F365D3">
+          <End Role="Czytelnik" Type="Self.Czytelnik" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Wypozyczenia_Ksiazki" Type="Self.Wypozyczenia_Ksiazki" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Czytelnik">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Wypozyczenia_Ksiazki">
+              <PropertyRef Name="ID_Czytelnika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ksiazka__ID_Slow__3F466844">
+          <End Role="Slowo_Kluczowe" Type="Self.Slowo_Kluczowe" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Ksiazka" Type="Self.Ksiazka" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Slowo_Kluczowe">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Ksiazka">
+              <PropertyRef Name="ID_Slowo_Kluczowe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ksiazka__ID_Wyda__3D5E1FD2">
+          <End Role="Wydawca" Type="Self.Wydawca" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Ksiazka" Type="Self.Ksiazka" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wydawca">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Ksiazka">
+              <PropertyRef Name="ID_Wydawcy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Wypozycze__ID_Ks__46E78A0C">
+          <End Role="Ksiazka" Type="Self.Ksiazka" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Wypozyczenia_Ksiazki" Type="Self.Wypozyczenia_Ksiazki" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ksiazka">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Wypozyczenia_Ksiazki">
+              <PropertyRef Name="ID_Ksiazki" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LibraryManagementDataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Autor" EntityType="Self.Autor" />
+          <EntitySet Name="Czytelnik" EntityType="Self.Czytelnik" />
+          <EntitySet Name="Ksiazka" EntityType="Self.Ksiazka" />
+          <EntitySet Name="Slowo_Kluczowe" EntityType="Self.Slowo_Kluczowe" />
+          <EntitySet Name="Wydawca" EntityType="Self.Wydawca" />
+          <EntitySet Name="Wypozyczenia_Filmu" EntityType="Self.Wypozyczenia_Filmu" />
+          <EntitySet Name="Wypozyczenia_Ksiazki" EntityType="Self.Wypozyczenia_Ksiazki" />
+          <AssociationSet Name="FK__Ksiazka__ID_Auto__3E52440B" Association="Self.FK__Ksiazka__ID_Auto__3E52440B">
+            <End Role="Autor" EntitySet="Autor" />
+            <End Role="Ksiazka" EntitySet="Ksiazka" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Wypozycze__ID_Cz__440B1D61" Association="Self.FK__Wypozycze__ID_Cz__440B1D61">
+            <End Role="Czytelnik" EntitySet="Czytelnik" />
+            <End Role="Wypozyczenia_Filmu" EntitySet="Wypozyczenia_Filmu" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Wypozycze__ID_Cz__45F365D3" Association="Self.FK__Wypozycze__ID_Cz__45F365D3">
+            <End Role="Czytelnik" EntitySet="Czytelnik" />
+            <End Role="Wypozyczenia_Ksiazki" EntitySet="Wypozyczenia_Ksiazki" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ksiazka__ID_Slow__3F466844" Association="Self.FK__Ksiazka__ID_Slow__3F466844">
+            <End Role="Slowo_Kluczowe" EntitySet="Slowo_Kluczowe" />
+            <End Role="Ksiazka" EntitySet="Ksiazka" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ksiazka__ID_Wyda__3D5E1FD2" Association="Self.FK__Ksiazka__ID_Wyda__3D5E1FD2">
+            <End Role="Wydawca" EntitySet="Wydawca" />
+            <End Role="Ksiazka" EntitySet="Ksiazka" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Wypozycze__ID_Ks__46E78A0C" Association="Self.FK__Wypozycze__ID_Ks__46E78A0C">
+            <End Role="Ksiazka" EntitySet="Ksiazka" />
+            <End Role="Wypozyczenia_Ksiazki" EntitySet="Wypozyczenia_Ksiazki" />
+          </AssociationSet>
+          <EntitySet Name="Rola" EntityType="LibraryManagementDataModel.Rola" />
+          <AssociationSet Name="FK_Czytelnik_ToRola" Association="LibraryManagementDataModel.FK_Czytelnik_ToRola">
+            <End Role="Rola" EntitySet="Rola" />
+            <End Role="Czytelnik" EntitySet="Czytelnik" />
+          </AssociationSet>
+          <EntitySet Name="Stan" EntityType="LibraryManagementDataModel.Stan" />
+          <AssociationSet Name="FK_Wypozyczenia_Filmu_ToStan" Association="LibraryManagementDataModel.FK_Wypozyczenia_Filmu_ToStan">
+            <End Role="Stan" EntitySet="Stan" />
+            <End Role="Wypozyczenia_Filmu" EntitySet="Wypozyczenia_Filmu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wypozyczenia_Ksiazki_ToStan" Association="LibraryManagementDataModel.FK_Wypozyczenia_Ksiazki_ToStan">
+            <End Role="Stan" EntitySet="Stan" />
+            <End Role="Wypozyczenia_Ksiazki" EntitySet="Wypozyczenia_Ksiazki" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Rola">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nazwa" Type="String" Nullable="false" MaxLength="30" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Czytelnik" Relationship="LibraryManagementDataModel.FK_Czytelnik_ToRola" FromRole="Rola" ToRole="Czytelnik" />
+        </EntityType>
+        <Association Name="FK_Czytelnik_ToRola">
+          <End Type="LibraryManagementDataModel.Rola" Role="Rola" Multiplicity="1" />
+          <End Type="LibraryManagementDataModel.Czytelnik" Role="Czytelnik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rola">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Czytelnik">
+              <PropertyRef Name="Rola" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Stan">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Opis" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Wypozyczenia_Filmu" Relationship="LibraryManagementDataModel.FK_Wypozyczenia_Filmu_ToStan" FromRole="Stan" ToRole="Wypozyczenia_Filmu" />
+          <NavigationProperty Name="Wypozyczenia_Ksiazki" Relationship="LibraryManagementDataModel.FK_Wypozyczenia_Ksiazki_ToStan" FromRole="Stan" ToRole="Wypozyczenia_Ksiazki" />
+        </EntityType>
+        <Association Name="FK_Wypozyczenia_Filmu_ToStan">
+          <End Type="LibraryManagementDataModel.Stan" Role="Stan" Multiplicity="1" />
+          <End Type="LibraryManagementDataModel.Wypozyczenia_Filmu" Role="Wypozyczenia_Filmu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stan">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Wypozyczenia_Filmu">
+              <PropertyRef Name="Stan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wypozyczenia_Ksiazki_ToStan">
+          <End Type="LibraryManagementDataModel.Stan" Role="Stan" Multiplicity="1" />
+          <End Type="LibraryManagementDataModel.Wypozyczenia_Ksiazki" Role="Wypozyczenia_Ksiazki" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stan">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Wypozyczenia_Ksiazki">
+              <PropertyRef Name="Stan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LibraryManagementDataModelStoreContainer" CdmEntityContainer="LibraryManagementDataEntities">
+          <EntitySetMapping Name="Autor">
+            <EntityTypeMapping TypeName="LibraryManagementDataModel.Autor">
+              <MappingFragment StoreEntitySet="Autor">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Imie" ColumnName="Imie" />
+                <ScalarProperty Name="Nazwisko" ColumnName="Nazwisko" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Czytelnik">
+            <EntityTypeMapping TypeName="LibraryManagementDataModel.Czytelnik">
+              <MappingFragment StoreEntitySet="Czytelnik">
+                <ScalarProperty Name="Wazne" ColumnName="Wazne" />
+                <ScalarProperty Name="Rola" ColumnName="Rola" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Imie" ColumnName="Imie" />
+                <ScalarProperty Name="Nazwisko" ColumnName="Nazwisko" />
+                <ScalarProperty Name="Uzytkownik" ColumnName="Uzytkownik" />
+                <ScalarProperty Name="Haslo" ColumnName="Haslo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ksiazka">
+            <EntityTypeMapping TypeName="LibraryManagementDataModel.Ksiazka">
+              <MappingFragment StoreEntitySet="Ksiazka">
+                <ScalarProperty Name="Stan_Magazynowy" ColumnName="Stan_Magazynowy" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Tytul" ColumnName="Tytul" />
+                <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+                <ScalarProperty Name="Strony" ColumnName="Strony" />
+                <ScalarProperty Name="ID_Wydawcy" ColumnName="ID_Wydawcy" />
+                <ScalarProperty Name="ID_Autora" ColumnName="ID_Autora" />
+                <ScalarProperty Name="ID_Aktora" ColumnName="ID_Aktora" />
+                <ScalarProperty Name="ID_Slowo_Kluczowe" ColumnName="ID_Slowo_Kluczowe" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Slowo_Kluczowe">
+            <EntityTypeMapping TypeName="LibraryManagementDataModel.Slowo_Kluczowe">
+              <MappingFragment StoreEntitySet="Slowo_Kluczowe">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Strona" ColumnName="Strona" />
+                <ScalarProperty Name="Slowo" ColumnName="Slowo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wydawca">
+            <EntityTypeMapping TypeName="LibraryManagementDataModel.Wydawca">
+              <MappingFragment StoreEntitySet="Wydawca">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wypozyczenia_Filmu">
+            <EntityTypeMapping TypeName="LibraryManagementDataModel.Wypozyczenia_Filmu">
+              <MappingFragment StoreEntitySet="Wypozyczenia_Filmu">
+                <ScalarProperty Name="Stan" ColumnName="Stan" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_Czytelnika" ColumnName="ID_Czytelnika" />
+                <ScalarProperty Name="ID_Filmu" ColumnName="ID_Filmu" />
+                <ScalarProperty Name="Data_Wypozyczenia" ColumnName="Data_Wypozyczenia" />
+                <ScalarProperty Name="Data_Zwrotu" ColumnName="Data_Zwrotu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wypozyczenia_Ksiazki">
+            <EntityTypeMapping TypeName="LibraryManagementDataModel.Wypozyczenia_Ksiazki">
+              <MappingFragment StoreEntitySet="Wypozyczenia_Ksiazki">
+                <ScalarProperty Name="Stan" ColumnName="Stan" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_Czytelnika" ColumnName="ID_Czytelnika" />
+                <ScalarProperty Name="ID_Ksiazki" ColumnName="ID_Ksiazki" />
+                <ScalarProperty Name="Data_Wypozyczenia" ColumnName="Data_Wypozyczenia" />
+                <ScalarProperty Name="Data_Zwrotu" ColumnName="Data_Zwrotu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rola">
+            <EntityTypeMapping TypeName="LibraryManagementDataModel.Rola">
+              <MappingFragment StoreEntitySet="Rola">
+                <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stan">
+            <EntityTypeMapping TypeName="LibraryManagementDataModel.Stan">
+              <MappingFragment StoreEntitySet="Stan">
+                <ScalarProperty Name="Opis" ColumnName="Opis" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram DiagramId="7588cc8e2a664daab7aa38123347399c" Name="Diagram1">
+        <EntityTypeShape EntityType="LibraryManagementDataModel.Autor" Width="1.5" PointX="3.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryManagementDataModel.Czytelnik" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryManagementDataModel.Ksiazka" Width="1.5" PointX="6" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryManagementDataModel.Slowo_Kluczowe" Width="1.5" PointX="3.75" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryManagementDataModel.Wydawca" Width="1.5" PointX="0.75" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryManagementDataModel.Wypozyczenia_Ksiazki" Width="1.5" PointX="8.25" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryManagementDataModel.Rola" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryManagementDataModel.Stan" Width="1.5" PointX="6" PointY="14.875" IsExpanded="true" />
+        <AssociationConnector Association="LibraryManagementDataModel.FK__Ksiazka__ID_Auto__3E52440B" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryManagementDataModel.FK__Wypozycze__ID_Cz__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryManagementDataModel.FK__Ksiazka__ID_Slow__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryManagementDataModel.FK__Ksiazka__ID_Wyda__3D5E1FD2" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryManagementDataModel.FK__Wypozycze__ID_Ks__46E78A0C" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryManagementDataModel.FK_Czytelnik_ToRola" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryManagementDataModel.FK_Wypozyczenia_Ksiazki_ToStan" ManuallyRouted="false" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

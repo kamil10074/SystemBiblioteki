@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+}
+<h2>Dashboard</h2>
+<table class="table">
+    <tr>
+        <td>
+            <label>Zarządzaj Kontem</label>
+            <ul>
+                <li>
+                    @Html.ActionLink("Edytuj Profil", "Edit", "Czytelnik", new { id = Session["UserID"] }, null)
+                </li>
+                <li>
+                    @Html.ActionLink("Wpożyczone Książki", "Index", "Wypozyczenia_Ksiazki", new { }, null)
+                </li>
+                <li>
+                    @Html.ActionLink("Wyloguj", "Logout", "Konta", new { }, null)
+                </li>
+            </ul>
+        </td>
+        @if (Session["UserRole"] != null)
+        {
+            var userRole = Int32.Parse(Session["UserRole"].ToString());
+            if (userRole > 0)
+            {
+                <td>
+                    <label>Panel Administracyjny</label>
+                    <ul>
+                        <li>
+                            @Html.ActionLink("Zarządzaj Czytelnikami", "Index", "Czytelnik", new { }, null)
+                        </li>
+                        <li>
+                            @Html.ActionLink("Zarządzaj Książkami", "Index", "Ksiazka", new { }, null)
+                        </li>
+                        <li>
+                            @Html.ActionLink("Zarządzaj Autorami", "Index", "Autor", new { }, null)
+                        </li>
+
+                    </ul>
+                </td>
+            }
+        }
+    </tr>
+
+</table>

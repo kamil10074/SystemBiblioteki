@@ -1,0 +1,40 @@
+﻿@model LibraryManagement.Models.Autor
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Usuń Autora</h2>
+
+<h3>Czy na pewno chcesz usunąć tą pozycje?</h3>
+<div>
+    <h4>Autor</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Imię Autora")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Imie)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Nazwisko Autora")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nazwisko)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Usuń" class="btn btn-default" /> |
+            @Html.ActionLink("Powrót do Listy", "Index")
+        </div>
+    }
+</div>

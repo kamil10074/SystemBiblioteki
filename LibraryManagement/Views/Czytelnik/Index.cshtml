@@ -1,0 +1,66 @@
+﻿@model IEnumerable<LibraryManagement.Models.Czytelnik>
+
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Lista Czytelników</h2>
+@if (Session["UserID"] != null)
+{
+    if (Model.Where(x => x.ID.ToString().Equals(Session["UserID"].ToString())).FirstOrDefault().Rola >= 2)
+    {
+        <p>
+            @Html.ActionLink("Dodaj nowego czytelnika", "Create")
+        </p>
+    }
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Imię")
+        </th>
+        <th>
+            @Html.DisplayName("Nazwisko")
+        </th>
+        <th>
+            @Html.DisplayName("Login")
+        </th>
+        <th>
+            @Html.DisplayName("E-Mail")
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Imie)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nazwisko)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Uzytkownik)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            @if (Session["UserID"] != null && Session["UserRole"] != null)
+            {
+                if (Model.Where(x => x.ID.ToString().Equals(Session["UserID"])).FirstOrDefault().Rola > item.Rola)
+                {
+                    <td>
+                        @Html.ActionLink("Edytuj", "Edit", new { id = item.ID }) |
+                        @Html.ActionLink("Szczegóły", "Details", new { id = item.ID }) |
+                        @Html.ActionLink("Usuń", "Delete", new { id = item.ID })
+                    </td>
+                }
+                else
+                {
+                    <td></td>
+                }
+            }
+
+        </tr>
+    }
+</table>
+

@@ -1,0 +1,51 @@
+﻿@model LibraryManagement.Models.Wypozyczenia_Ksiazki
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Szczegóły</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Data wypożyczenia")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Data_Wypozyczenia)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Data zwrotu")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Data_Zwrotu)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Wypożyczał")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Czytelnik.Imie)
+            @Html.DisplayFor(model => model.Czytelnik.Nazwisko)
+
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Tytuł")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ksiazka.Tytul)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edytuj", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Powrót do Listy", "Index")
+</p>

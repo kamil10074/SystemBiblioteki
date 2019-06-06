@@ -1,0 +1,92 @@
+﻿@model PagedList.IPagedList<LibraryManagement.Models.Ksiazka>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css"/>
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Lista Książek</h2>
+@if (Session["UserID"] != null && Session["UserRole"] != null)
+{
+    if (Int32.Parse(Session["UserRole"].ToString()) >= 1)
+    {
+        <p>
+            @Html.ActionLink("Dodaj nową Książkę", "Create")
+        </p>
+    }
+}
+@using (Html.BeginForm("Index", "Ksiazka", FormMethod.Get))
+{
+    <p>
+        Find by Tytuł: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search"/>
+    </p>
+}
+    <table class="table">
+        <tr>
+            <th>
+                @Html.ActionLink("Tytuł", "Index", new { sortOrder = ViewBag.TytulSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.DisplayName("ISBN")
+            </th>
+            <th>
+                @Html.DisplayName("Ilość stron")
+            </th>
+
+            <th>
+                @Html.DisplayName("Autor")
+            </th>
+            <th>
+                @Html.DisplayName("Wydawca")
+            </th>
+            <th>
+                @Html.ActionLink("Dostępne", "Index", new { sortOrder = ViewBag.DostepneSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tytul)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ISBN)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Strony)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Autor.Imie)
+                    @Html.DisplayFor(modelItem => item.Autor.Nazwisko)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Wydawca.Nazwa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stan_Magazynowy)
+                </td>
+                @if (Session["UserID"] != null && Session["UserRole"] != null)
+                {
+                    <td>
+                        @if (Int32.Parse(Session["UserRole"].ToString()) >= 1)
+                        {
+
+                            @Html.ActionLink("Edytuj", "Edit", new { id = item.ID }) @:|
+                            @Html.ActionLink("Szczegóły", "Details", new { id = item.ID }) @:|
+                            @Html.ActionLink("Usuń", "Delete", new { id = item.ID }) @:|
+
+                        }
+                        @Html.ActionLink("Dodaj do Koszyka", "Add", "Koszyk", new { id = item.ID, type = 0 }, null)
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action ("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter}))
+

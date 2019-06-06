@@ -1,0 +1,78 @@
+﻿@model LibraryManagement.Models.Ksiazka
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Usuń Książkę</h2>
+
+<h3>Czy na pewno chcesz usunąć tą pozycje?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Tytuł")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tytul)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ISBN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ISBN)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Ilość Stron")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Strony)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Imię Autora")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Autor.Imie)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Nazwisko Autora")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Autor.Nazwisko)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Nazwa Wydawcy")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Wydawca.Nazwa)
+        </dd>
+        <dt>
+            @Html.DisplayName("Stan magazynowy")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Stan_Magazynowy)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Usuń" class="btn btn-default" /> |
+            @Html.ActionLink("Powrót do Listy", "Index")
+        </div>
+    }
+</div>

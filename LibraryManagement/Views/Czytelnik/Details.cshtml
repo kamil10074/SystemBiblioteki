@@ -1,0 +1,58 @@
+﻿@model LibraryManagement.Models.Czytelnik
+
+@{
+    ViewBag.Title = "Details";
+}
+<h2>Szczegóły</h2>
+<div>
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Imię")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Imie)
+        </dd>
+        <dt>
+            @Html.DisplayName("Nazwisko")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Nazwisko)
+        </dd>
+        <dt>
+            @Html.DisplayName("Login")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Uzytkownik)
+        </dd>
+        <dt>
+            @Html.DisplayName("Hasło")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Haslo)
+        </dd>
+        <dt>
+            @Html.DisplayName("E-Mail")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayName("Czy ważne")
+        </dt>
+        <dd>
+            @Html.CheckBoxFor(model => model.Wazne, new { htmlAttributes = new { @class = "form-control" }, disabled = "disabled" })
+        </dd>
+        <dt>
+            @Html.DisplayName("Rola")
+        </dt>
+        <dd>
+            @ViewBag.UserRoleString
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Powrót do listy", "Index")
+</p>
+

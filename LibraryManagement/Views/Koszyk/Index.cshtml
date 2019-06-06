@@ -1,0 +1,82 @@
+﻿@model IList<LibraryManagement.Models.Rzecz>
+@using LibraryManagement.Models;
+@using System;
+@{
+    ViewBag.Title = "Index";
+    DateTime pobranie = DateTime.Now;
+    DateTime zwrot = DateTime.Now.AddDays(1);
+
+}
+<h2>Koszyk</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<table class="table">
+    <tr>
+        <th>
+            @Html.LabelFor(x => x[0].tytul)
+        </th>
+        <th>
+            @Html.LabelFor(x => x[0].ilosc)
+        </th>
+        <th>
+            @Html.LabelFor(x => x[0].data_wypozyczenia)
+        </th>
+        <th>
+            @Html.LabelFor(x => x[0].data_zwrotu)
+        </th>
+        <th></th>
+    </tr>
+
+    @if (Session["Koszyk"] != null)
+    {
+        for (int i = 0; i < Model.Count; i++)
+        {
+            @Html.HiddenFor(x => x[i].ID)
+            @Html.HiddenFor(x => x[i].type)
+            @Html.HiddenFor(x => x[i].tytul)
+
+    <tr>
+        <td>
+            @Html.DisplayFor(x => x[i].tytul)
+        </td>
+        <td>
+            @Html.EditorFor(x => x[i].ilosc, new { htmlAttributes = new { @class = "form-control", @min = "0" } })
+        </td>
+        <td>
+            @Html.TextBoxFor(x => x[i].data_wypozyczenia, String.Format("{0:d}", pobranie.ToShortDateString()), new { @class = "datefield"})
+        </td>
+        <td>
+            @Html.TextBoxFor(x => x[i].data_zwrotu, String.Format("{0:d}", zwrot.ToShortDateString()), new { @class = "datefield" })
+        </td>
+        <td>
+            @Html.ActionLink("Usuń", "Delete", new { id = i })
+        </td>
+        <td>
+            @pobranie;
+        </td>
+    </tr>
+        }
+    }
+            @if (ViewBag.Error != null)
+                {
+                <tr>
+                <td>
+                @foreach(string str in ViewBag.Error)
+                {
+                    @Html.Label(str, new { @class = "text-danger" })
+                    <br/>
+                    }
+                </td>
+                </tr>
+        }
+<tr>
+<td>
+    <input type = "submit" name = "Submit" value = "Wypożycz Koszyk" class="btn btn-default" />
+    <input type = "submit" name="Save" value="Zachowaj zmiany" class="btn btn-default" />
+</td>
+<td />
+<td />
+</tr>
+</table>
+    }

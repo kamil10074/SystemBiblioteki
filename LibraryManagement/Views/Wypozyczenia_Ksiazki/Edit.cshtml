@@ -1,0 +1,47 @@
+﻿@model LibraryManagement.Models.Wypozyczenia_Ksiazki
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edytuj Wypożyczenie</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+        @Html.HiddenFor(model => model.ID_Ksiazki)
+        @Html.HiddenFor(model => model.ID_Czytelnika)
+        @Html.HiddenFor(model => model.Data_Wypozyczenia)
+        @Html.Hidden("bstan", Model.Stan)
+        <div class="form-group">
+            @Html.Label("Data zwrotu", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Data_Zwrotu, String.Format("{0:d}", ((DateTime)Model.Data_Zwrotu).ToShortDateString()), new { @class = "datefield", type = "date" })
+                @Html.ValidationMessageFor(model => model.Data_Zwrotu, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Stan, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Stan", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Stan, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Zapisz" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Powrót do Listy", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,65 @@
+﻿@model LibraryManagement.Models.Ksiazka
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Szczegóły</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Tytuł")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tytul)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ISBN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ISBN)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Ilość stron")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Strony)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Autor")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Autor.Imie)
+            @Html.DisplayFor(model => model.Autor.Nazwisko)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Wydawca.Nazwa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Wydawca.Nazwa)
+        </dd>
+        <dt>
+            @Html.DisplayName("Stan magazynowy")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Stan_Magazynowy)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

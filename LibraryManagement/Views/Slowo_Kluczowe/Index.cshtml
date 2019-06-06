@@ -1,0 +1,48 @@
+﻿@model IEnumerable<LibraryManagement.Models.Slowo_Kluczowe>
+
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Lsita Słow kluczowych</h2>
+@if (Session["UserID"] != null && Session["UserRole"] != null)
+{
+    if (Int32.Parse(Session["UserRole"].ToString()) >= 1)
+    {
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+    }
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Strona)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Slowo)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Strona)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Slowo)
+            </td>
+            @if (Session["UserID"] != null && Session["UserRole"] != null)
+            {
+                if (Int32.Parse(Session["UserRole"].ToString()) >= 1)
+                {
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    </td>
+                }
+            }
+        </tr>
+    }
+</table>
