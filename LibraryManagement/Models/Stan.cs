@@ -17,12 +17,15 @@ namespace LibraryManagement.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Stan()
         {
+            this.Wypozyczenia_Filmu = new HashSet<Wypozyczenia_Filmu>();
             this.Wypozyczenia_Ksiazki = new HashSet<Wypozyczenia_Ksiazki>();
         }
     
         public int Id { get; set; }
         public string Opis { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Wypozyczenia_Filmu> Wypozyczenia_Filmu { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Wypozyczenia_Ksiazki> Wypozyczenia_Ksiazki { get; set; }
     }

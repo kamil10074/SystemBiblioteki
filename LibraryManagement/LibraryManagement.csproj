@@ -238,6 +238,9 @@
     <Compile Include="Models\Wydawca.cs">
       <DependentUpon>LibraryManagementModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Wypozyczenia_Filmu.cs">
+      <DependentUpon>LibraryManagementModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Wypozyczenia_Ksiazki.cs">
       <DependentUpon>LibraryManagementModel.tt</DependentUpon>
     </Compile>

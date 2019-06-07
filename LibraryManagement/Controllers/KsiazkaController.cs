@@ -59,7 +59,7 @@ namespace LibraryManagement.Controllers
                     ksiazka = ksiazka.OrderBy(s => s.Tytul);
                     break;
             }
-            int pageSize = 3;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(ksiazka.ToPagedList(pageNumber, pageSize));
 

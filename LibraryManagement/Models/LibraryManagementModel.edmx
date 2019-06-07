@@ -281,7 +281,6 @@
           <Property Name="Uzytkownik" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Haslo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Wypozyczenia_Filmu" Relationship="Self.FK__Wypozycze__ID_Cz__440B1D61" FromRole="Czytelnik" ToRole="Wypozyczenia_Filmu" />
           <NavigationProperty Name="Wypozyczenia_Ksiazki" Relationship="Self.FK__Wypozycze__ID_Cz__45F365D3" FromRole="Czytelnik" ToRole="Wypozyczenia_Ksiazki" />
           <Property Name="Rola" Type="Int32" Nullable="false" />
           <Property Name="Wazne" Type="Boolean" Nullable="false" />

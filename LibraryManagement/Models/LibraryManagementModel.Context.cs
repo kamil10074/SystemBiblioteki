@@ -30,6 +30,7 @@ namespace LibraryManagement.Models
         public virtual DbSet<Ksiazka> Ksiazka { get; set; }
         public virtual DbSet<Slowo_Kluczowe> Slowo_Kluczowe { get; set; }
         public virtual DbSet<Wydawca> Wydawca { get; set; }
+        public virtual DbSet<Wypozyczenia_Filmu> Wypozyczenia_Filmu { get; set; }
         public virtual DbSet<Wypozyczenia_Ksiazki> Wypozyczenia_Ksiazki { get; set; }
         public virtual DbSet<Rola> Rola { get; set; }
         public virtual DbSet<Stan> Stan { get; set; }
